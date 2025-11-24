@@ -1,0 +1,22 @@
+server:
+  port: 8081 #gateway port
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/ #located by eureka docker container name
+
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - TokenRelay #aplies TokenRelay filter to all routes (forwards authorization: Bearer <token> header to all used microservice)
+      routes:
+        - id: mediaplayer
+          uri: lb://mediaplayer #lb = load balance via eureka (LITERAL DARK SPRING MAGIC BEING USED TO FIND EUREKA)
+          predicates:
+            - Path=/mediaplayer/**
+    discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
