@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/edufy-microservice-gateway.iml" filepath="$PROJECT_DIR$/.idea/edufy-microservice-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/edufy-microservice-gateway/edufy-microservice-gateway.iml" filepath="$PROJECT_DIR$/edufy-microservice-gateway/edufy-microservice-gateway.iml" />
     </modules>
   </component>
 </project>

@@ -16,6 +16,11 @@ spring:
           uri: lb://mediaplayer #lb = load balance via eureka (LITERAL DARK SPRING MAGIC BEING USED TO FIND EUREKA)
           predicates:
             - Path=/mediaplayer/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/edufy-realm
     discovery:
         locator:
           enabled: true
