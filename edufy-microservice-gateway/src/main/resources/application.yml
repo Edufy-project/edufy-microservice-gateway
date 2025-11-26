@@ -1,10 +1,10 @@
 server:
-  port: 8081 #gateway port
+  port: 8081
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/ #http://eureka-server:8761/eureka/ #located by eureka docker container name
+      defaultZone: http://localhost:8761/eureka/
 
 spring:
   application:
@@ -14,14 +14,26 @@ spring:
       server:
         webflux:
           default-filters:
-           - TokenRelay #aplies TokenRelay filter to all routes (forwards authorization: Bearer <token> header to all used microservice)
+            - TokenRelay
           routes:
             - id: mediaplayer
-              uri: lb://edufy-media-service #lb = load balance via eureka (LITERAL DARK SPRING MAGIC BEING USED TO FIND EUREKA)
+              uri: lb://edufy-media-service
+              predicates:
+                - Path=/edufy/**   # <--- behövs
+              filters:
+                - TokenRelay=
             - id: toplistservice
               uri: lb://Edufy-toplistservice
+              predicates:
+                - Path=/edufy/**
+              filters:
+                - TokenRelay=
             - id: edufy-userservice
               uri: lb://Edufy-userservice
+              predicates:
+                - Path=/edufy/**
+              filters:
+                - TokenRelay=
 
           discovery:
             locator:
