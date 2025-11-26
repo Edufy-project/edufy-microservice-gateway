@@ -4,19 +4,42 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka-server:8761/eureka/ #located by eureka docker container name
+      defaultZone: http://localhost:8761/eureka/ #located by eureka docker container name
 
 spring:
+  application:
+    name: edufy-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/edufy-realm
   cloud:
     gateway:
-      default-filters:
-        - TokenRelay #aplies TokenRelay filter to all routes (forwards authorization: Bearer <token> header to all used microservice)
-      routes:
-        - id: mediaplayer
-          uri: lb://mediaplayer #lb = load balance via eureka (LITERAL DARK SPRING MAGIC BEING USED TO FIND EUREKA)
-          predicates:
-            - Path=/mediaplayer/**
-    discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+      server:
+        webflux:
+          routes:
+            - id: toplist
+              uri: lb://Edufy-toplistservice
+              predicates:
+                - Path=/edufy/api/toplist/**
+              filters:
+                - TokenRelay=
+            - id: userservice
+              uri: lb://userservice
+              predicates:
+                - Path=/edufy/api/users/**
+              filters:
+                - TokenRelay=
+            - id: recommended
+              uri: lb://edufy-recommendation-service
+              predicates:
+                - Path=/edufy/api/recommended/**
+              filters:
+                - TokenRelay=
+            - id: mediaplayer
+              uri: lb://edufy-mediaplayer-service
+              predicates:
+                - Path=/edufy/api/mediaplayer/**
+              filters:
+                - TokenRelay=
