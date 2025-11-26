@@ -9,6 +9,7 @@ eureka:
 spring:
   application:
     name: edufy-gateway-server
+
   cloud:
     gateway:
       server:
@@ -19,19 +20,19 @@ spring:
             - id: mediaplayer
               uri: lb://edufy-media-service
               predicates:
-                - Path=/edufy/**   # <--- behövs
+                - Path=/edufy/api/mediaplayer**
               filters:
                 - TokenRelay=
             - id: toplistservice
               uri: lb://Edufy-toplistservice
               predicates:
-                - Path=/edufy/**
+                - Path=/edufy/api/toplist/**
               filters:
                 - TokenRelay=
             - id: edufy-userservice
               uri: lb://Edufy-userservice
               predicates:
-                - Path=/edufy/**
+                - Path=/edufy/api**
               filters:
                 - TokenRelay=
 
