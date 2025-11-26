@@ -13,20 +13,20 @@ spring:
     gateway:
       server:
         webflux:
-           default-filters:
+          default-filters:
            - TokenRelay #aplies TokenRelay filter to all routes (forwards authorization: Bearer <token> header to all used microservice)
-        routes:
-          - id: mediaplayer
-            uri: lb://edufy-media-service #lb = load balance via eureka (LITERAL DARK SPRING MAGIC BEING USED TO FIND EUREKA)
-          - id: toplistservice
-            uri: lb://Edufy-toplistservice
-          - id: edufy-userservice
-            uri: lb://Edufy-userservice
+          routes:
+            - id: mediaplayer
+              uri: lb://edufy-media-service #lb = load balance via eureka (LITERAL DARK SPRING MAGIC BEING USED TO FIND EUREKA)
+            - id: toplistservice
+              uri: lb://Edufy-toplistservice
+            - id: edufy-userservice
+              uri: lb://Edufy-userservice
 
-    discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
 
   security:
     oauth2:
